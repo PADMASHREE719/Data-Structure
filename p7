@@ -1,0 +1,115 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct Node
+{
+    int data;
+    struct Node* next;
+}Node;
+
+void insertAtBeg(Node **head,int value)
+{
+    Node* newNode=(Node*)malloc(sizeof(Node));
+    newNode->data=value;
+    newNode->next=(*head);
+    *head=newNode;
+}
+
+Node* sort(Node* head)
+{
+    if(head==NULL||head->next==NULL)
+    {
+        return head;
+    }
+    Node* current=head;
+    while(current!=NULL)
+    {
+        Node* temp=current->next;
+        while(temp!=NULL)
+        {
+            if(current->data>temp->data)
+            {
+                int val=current->data;
+                current->data=temp->data;
+                temp->data=val;
+            }
+            temp=temp->next;
+        }
+        current=current->next;
+    }
+    return head;
+}
+
+Node* removeduplicate(Node* head) //***
+{
+    if(head==NULL||head->next==NULL)
+    {
+        return head;
+    }
+    Node* temp=head;
+    while(temp!=NULL&&temp->next!=NULL)
+    {
+        if(temp->data==temp->next->data)
+        {
+            Node* duplicate=temp->next;
+            temp->next=temp->next->next;
+            free(duplicate);
+        }
+        else
+        {
+            temp=temp->next;
+        }
+    }
+
+    return head;
+}
+
+void display(Node *head)
+{
+    Node* temp=head;
+    if(temp==NULL)
+    {
+        printf("\n list is empty");
+        return;
+    }
+    while(temp!=NULL)
+    {
+        printf("%d",temp->data);
+        temp=temp->next;
+    }
+    printf("\n");
+}
+
+
+int main()
+{
+    Node* head=NULL;
+    int choice,value;
+    while(1)
+    {
+        printf("\n 1. Inserting a node at Beginning 1");
+        printf("\n 2. Sorting");
+        printf("\n 3. removing repeted nodes ");
+        printf("\n 4. Display");
+        printf("\n 5. Exit");
+        printf("\n Enter your choice");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:printf("\n enter the data to be added for list:");
+                scanf("%d",&value);
+                insertAtBeg(&head,value);
+                break;
+            case 2:head=sort(head);
+                break;
+            case 3:head=removeduplicate(head);
+                break;
+            case 4:display(head);
+                break;
+            case 5:exit(0);
+                break;
+            default:printf("\n Invalid Choice");
+                break;
+        }
+    }
+}
