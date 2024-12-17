@@ -1,0 +1,100 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+typedef struct Node
+{
+    char Name[20];
+    struct Node* next;
+}Node;
+
+void insertAtEnd(Node **head,char name[])
+{
+    Node* newNode=(Node*)malloc(sizeof(Node));
+    strcpy(newNode->Name,name);
+    newNode->next=NULL;
+    if(*head==NULL)
+    {
+        *head=newNode;
+        return;
+    }
+    Node* temp=*head;
+    while(temp->next!=NULL)
+    {
+        temp=temp->next;
+    }
+    temp->next=newNode;
+}
+
+void deleteFromPos(Node **head,char name[])
+{
+    Node* temp=*head;
+    if(strcmp(temp->Name,name)==0)
+    {
+        *head=(*head)->next;
+        free(temp);
+        return;
+    }
+    while(temp!=NULL&&strcmp(temp->next->Name,name)!=0)
+    {
+        temp=temp->next;
+    }
+    if(temp==NULL)
+    {
+        printf("\n item not present");
+    }
+    Node* var=temp->next->next;
+    free(temp->next);
+    temp->next=var;
+}
+
+void display(Node *head)
+{
+    if(head==NULL)
+    {
+        printf("\n empty stack");
+        return;
+    }
+    Node* temp=head;
+    while(temp!=NULL)
+    {
+        printf("\n%s",temp->Name);
+        temp=temp->next;
+    }
+
+}
+
+int main()
+{
+    int choice;
+    char name[20];
+    Node *head=NULL;
+    while(1)
+    {
+        printf("\n Avalable op are:");
+        printf("\n 1.insertion");
+        printf("\n 2.Deletion");
+        printf("\n 3. Display");
+        printf("\n 4. exit");
+        printf("\n enter your choice");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1: printf("\n enter name");
+                scanf("%s",name);
+                insertAtEnd(&head,name);
+                break;
+            case 2: printf("\n enter name to be deleted");
+                scanf("%s",name);
+                deleteFromPos(&head,name);
+                break;
+            case 3:display(head);
+                break;
+            case 4: exit(0);
+                break;
+            default:printf("\n invalid choice");
+                break;
+        }
+    }
+    return 0;
+}
