@@ -1,0 +1,90 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define MAX 5
+
+void enqueue(int queue[],int *f,int *r,int value)
+{
+    if(*r==MAX-1)
+    {
+        printf("\n Queue is full");
+    }
+    else if(*f==-1&&*r==-1)
+    {
+        *f=*r=0;
+        queue[*r]=value;
+        printf("%d added to queue",queue[*r]);
+    }
+    else
+    {
+        (*r)++;
+        queue[*r]=value;
+        printf("%d added to queue",queue[*r]);
+    }
+}
+
+void dequeue(int queue[],int *f,int *r)
+{
+    if(*f==-1||*f>*r)
+    {
+        printf("\n Queue is empty");
+    }
+    else if(*f==*r)
+    {
+        printf("removed value is %d",queue[*f]);
+        *f=*r=-1;
+    }
+    else
+    {
+        printf("removed value is %d",queue[*f]);
+        (*f)++; //**
+    }
+}
+
+void display(int queue[],int f,int r)
+{
+    if(f==-1||f>r) //**
+    {
+        printf("\n Queue is empty");
+    }
+    else
+    {
+        for(int i=f;i<=r;i++)//*
+        {
+            printf("\t %d",queue[i]);
+        }
+    }
+
+}
+
+int main()
+{
+    int queue[MAX];
+    int f=-1,r=-1;
+    int choice,value;
+    while(1)
+    {
+        printf("\n ***available operations are:");
+        printf("\n 1.Enqueue");
+        printf("\n 2.Dequeue");
+        printf("\n 3.Display");
+        printf("\n 4.Exit");
+        printf("\n enter your choice");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1: printf("enter the element to be pushed");
+                    scanf("%d",&value);
+                    enqueue(queue,&f,&r,value);
+                    break;
+            case 2:dequeue(queue,&f,&r);
+                    break;
+            case 3:display(queue,f,r);
+                    break;
+            case 4:exit(0);
+                    break;
+            default:printf("\n invalid choice");
+                    break;
+        }
+    }
+    return 0;
+}
