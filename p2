@@ -1,0 +1,72 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+typedef struct Node
+{
+    char USN[20];
+    char Name[20];
+    char Mobile[11];
+    struct Node* next;
+}Node;
+
+void push(Node **head,char usn[],char name[],int mobile[])
+{
+    Node *newNode=(Node*)malloc(sizeof(Node));
+    strcpy(newNode->USN,usn);
+    strcpy(newNode->Name,name);
+    strcpy(newNode->Mobile,mobile);
+    newNode->next=*head;
+    *head=newNode;
+}
+
+void display(Node *head)
+{
+    if(head==NULL)
+    {
+        printf("\n empty stack");
+        return;
+    }
+    Node* temp=head;
+    while(temp!=NULL)
+    {
+        printf("\n%s",temp->Name);
+        printf("\n%s",temp->USN);
+        printf("\n%s",temp->Mobile);
+        temp=temp->next;
+    }
+}
+
+int main()
+{
+    int choice;
+    char mobile[11],usn[20],name[20];
+    Node *head=NULL;
+    while(1)
+    {
+        printf("\n Avalable op are:");
+        printf("\n 1.Push");
+        printf("\n 2.Display");
+        printf("\n 3. exit");
+        printf("\n enter your choice");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1: printf("\n enter name");
+                scanf("%s",name);
+                printf("\n enter usn");
+                scanf("%s",usn);
+                printf("\n mobile no");
+                scanf("%s",mobile);
+                push(&head,usn,name,mobile);
+                break;
+            case 2:display(head);
+                break;
+            case 3: exit(0);
+                break;
+            default:printf("\n invalid choice");
+                break;
+        }
+    }
+	return 0;
+}
