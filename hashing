@@ -1,0 +1,86 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define TABLE_SIZE 10
+
+void insert(int h[])
+{
+    int key,hkey,index,i;
+    printf("\n Enter the key");
+    scanf("%d",&key);
+    hkey=key%TABLE_SIZE;
+    for(i=0;i<TABLE_SIZE;i++)
+    {
+        index=(hkey+i)%TABLE_SIZE;
+        if(h[index]==0)
+        {
+            h[index]=key;
+            break;
+        }
+    }
+    printf("\n no of  probes are %d",i+1);
+    if(i==TABLE_SIZE)
+    {
+        printf("\n element cannot enter into the table");
+        return;
+    }
+}
+
+void search(int h[])
+{
+    int key,hkey,index,i;
+    printf("\n Enter the key need to be searched");
+    scanf("%d",&key);
+    hkey=key%TABLE_SIZE;
+    for(i=0;i<TABLE_SIZE;i++)
+    {
+        index=(hkey+i)%TABLE_SIZE;
+        if(h[index]==key)
+        {
+            printf("\n element found at pos %d",index+1);
+            break;
+        }
+    }
+    if(i==TABLE_SIZE)
+    {
+        printf("\n element cannot found");
+        return;
+    }
+}
+
+void display(int h[])
+{
+    for(int i=0;i<TABLE_SIZE;i++)
+    {
+        printf("%d \t",h[i]);
+    }
+}
+
+int main()
+{
+    int h[TABLE_SIZE]={0};
+    int choice;
+    while(1)
+    {
+        printf("\n Available operations are:");
+        printf("\n 1.insertion");
+        printf("\n 2.search");
+        printf("\n 3.Display");
+        printf("\n 4.Quit");
+        printf("\n enter your choice");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:insert(h);
+                break;
+            case 2:search(h);
+                break;
+            case 3:display(h);
+                break;
+            case 4:exit(0);
+                break;
+            default:printf("\n Invalid Options");
+                break;
+        }
+    }
+    return 0;
+}
