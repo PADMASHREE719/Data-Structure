@@ -1,0 +1,83 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+typedef struct Node
+{
+    char URL[20];
+    struct Node* next;
+}Node;
+
+void insert(Node **head,char value[])
+{
+    Node* newNode=(Node*)malloc(sizeof(Node));
+    strcpy(newNode->URL,value);
+    newNode->next=NULL;
+    if(*head==NULL)
+    {
+        *head=newNode;
+        return;
+    }
+    Node* temp=*head;
+    while(temp->next!=NULL)
+    {
+        temp=temp->next;
+    }
+    temp->next=newNode;
+}
+
+ Node* searchURL(Node *head,int x)
+{
+    if (x <= 0) {
+    printf("\nInvalid number of clicks.\n");
+    return NULL;
+    }
+
+    Node* temp=head;
+    int count=1;
+    while(temp!=NULL&&count<x)
+    {
+        temp=temp->next;
+        count++;
+    }
+    if(temp==NULL)
+    {
+        printf("\n no of clicks is more than max");
+        return NULL;
+    }
+    return temp->URL;
+}
+
+
+int main()
+{
+    Node* head=NULL;
+    int choice,var;
+    char value[20];
+    Node* val;
+    while(1)
+    {
+        printf("\n 1. Inserting a node");
+        printf("\n 2. Searching url");
+        printf("\n 3. Exit");
+        printf("\n Enter your choice");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:printf("\n enter the URL to be added");
+                scanf("%s",value);
+                insert(&head,value);
+                break;
+            case 2:printf("\n enter the no of clicks:");
+                scanf("%d",&var);
+                val=searchURL(head,var);
+                printf("%s is required URL",val);
+                break;
+            case 3:exit(0);
+                break;
+            default:printf("\n Invalid Choice");
+                break;
+        }
+    }
+    return 0;
+}
