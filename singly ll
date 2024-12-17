@@ -1,0 +1,120 @@
+#include<stdlib.h>
+#include<stdio.h>
+
+struct Node
+{
+    int data;
+    struct Node *next;
+};
+
+struct Node* createNode(int value)
+{
+    struct Node* newNode=(struct Node*)malloc(sizeof(struct Node));
+    newNode->data=value;
+    newNode->next=NULL;
+    return newNode;
+};
+
+void insertAtBeginning(struct Node** head,int value)
+{
+    struct Node* newNode=createNode(value);
+    newNode->next=*head;
+    *head=newNode;
+}
+
+void insertAtEnd(struct Node** head,int value)
+{
+    struct Node* newNode=createNode(value);
+    if(*head==NULL)
+    {
+        *head=newNode;
+        return;
+    }
+    struct Node* temp=*head;
+    while(temp->next!=NULL)
+    {
+        temp=temp->next;
+    }
+    temp->next=newNode;
+}
+
+void insertAtpos(struct Node** head,int value,int pos)
+{
+    struct Node* newNode=createNode(value);
+    if(pos==0)
+    {
+        insertAtBeginning(head,value);
+        return;
+    }
+    struct Node* temp=*head;
+    for(int i=0;temp!=NULL&&i<pos-1;i++)
+    {
+        temp=temp->next;
+    }
+    if(temp==NULL)
+    {
+        printf("\n out of bound");
+        free(newNode);
+        return;
+    }
+    newNode->next=temp->next;
+    temp->next=newNode;
+}
+
+void display(struct Node *head) //**
+{
+    if(head==NULL) //**
+    {
+        printf("\n linked list is empty");
+    }
+    else
+    {
+        struct Node* temp=head;
+        while(temp!=NULL)
+        {
+            printf("%d",temp->data);
+            temp=temp->next;
+        }
+    }
+}
+
+int main()
+{
+    struct Node *head=NULL;
+    int choice,value,pos;
+    while(1)
+    {
+        printf("\n ***available operations are:");
+        printf("\n 1.insertAtBeginning");
+        printf("\n 2.insertAtend");
+        printf("\n 3.insertAtpos");
+        printf("\n 4.Display");
+        printf("\n 5.Exit");
+        printf("\n enter your choice");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1: printf("enter the value");
+                    scanf("%d",&value);
+                    insertAtBeginning(&head,value);
+                    break;
+            case 2:printf("enter the value");
+                    scanf("%d",&value);
+                    insertAtEnd(&head,value);
+                    break;
+            case 3:printf("enter the value");
+                    scanf("%d",&value);
+                    printf("enter the pos");
+                    scanf("%d",&pos);
+                    insertAtpos(&head,value,pos); //**
+                    break; //**
+            case 4:display(head);//**
+                    break;
+            case 5:exit(0);
+                    break;
+            default:printf("\n invalid choice");
+                    break;
+        }
+    }
+    return 0;
+}
