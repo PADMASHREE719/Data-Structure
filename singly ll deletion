@@ -1,0 +1,138 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct Node
+{
+    int data;
+    struct Node *next;
+}Node;
+
+Node* createNode(int value)
+{
+    Node* newNode=(Node*)malloc(sizeof(Node));
+    newNode->data=value;
+    newNode->next=NULL;
+    return newNode;
+}
+
+void insertAtBeginning(Node **head,int value)
+{
+    Node* newNode=createNode(value); //***
+    newNode->next=*head;
+    *head=newNode;
+}
+
+void DelFromBeginnng(Node **head)
+{
+    if(*head==NULL)
+    {
+        printf("\n list is empty");
+        return;
+    }
+
+    Node* temp=*head;
+    *head=temp->next;
+    free(temp);
+}
+
+void DelFromEnd(Node **head)
+{
+    if(*head==NULL)
+    {
+        printf("\n list is empty");
+        return;
+    }
+    Node* temp=*head;
+    if(temp->next==NULL)
+    {
+        (*head)=NULL;
+        free(temp);
+    }
+    while(temp->next->next!=NULL)
+    {
+        temp=temp->next;
+    }
+    free(temp->next);
+    temp->next=NULL;
+}
+
+void DelFromPos(Node **head,int pos)
+{
+    if(*head==NULL)
+    {
+        printf("\n list is empty");
+        return;
+    }
+    if(pos==0)
+    {
+        DelFromBeginnng(head);
+    }
+    Node* temp=*head;
+    for(int i=0;i<pos-1&&temp!=NULL;i++)
+    {
+        temp=temp->next;
+    }
+    if(temp==NULL||temp->next==NULL)
+    {
+        printf("\n out of bound");
+        return;
+    }
+    Node* Next=temp->next->next;
+    free(temp->next);
+    temp->next=Next;
+}
+
+void Display(Node *head)
+{
+    if(head==NULL)
+    {
+        printf("\n list is empty");
+        return;
+    }
+    Node *temp=head;
+    while(temp!=NULL)
+    {
+        printf("%d",temp->data);
+        temp=temp->next;
+    }
+}
+
+int main()
+{
+    Node *head=NULL;
+    int choice,value,pos;
+    while(1) //**
+    {
+        printf("***\n Available operations are:****");
+    printf("\n 1.Inserting a node ");
+    printf("\n 2.Delete from beginning ");
+    printf("\n 3.Delete from end ");
+    printf("\n 4.Delete from pos ");
+    printf("\n 5.Display");
+    printf("\n 6.Exit");
+    printf("\n Enter your choice");
+    scanf("%d",&choice);
+    switch(choice)
+    {
+        case 1:printf("enter the value to be added");
+            scanf("%d",&value);
+            insertAtBeginning(&head,value);
+            break;
+        case 2:DelFromBeginnng(&head);
+            break;
+        case 3:DelFromEnd(&head);
+            break;
+        case 4:printf("\n enter the position");
+            scanf("%d",&pos);
+            DelFromPos(&head,pos);
+            break;
+        case 5:Display(head);
+            break;
+        case 6:exit(0);
+            break;
+        default:printf("\n Invalid choice");
+            break;
+    }
+    }
+
+}
