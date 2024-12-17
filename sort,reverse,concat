@@ -1,0 +1,124 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct Node
+{
+    int data;
+    struct Node* next;
+}Node;
+
+void insertAtBeginning(Node **head,int value)
+{
+    Node *newNode=(Node*)malloc(sizeof(Node));
+    newNode->data=value;
+    newNode->next=(*head);
+    *head=newNode;
+}
+
+Node* sort(Node *head)
+{
+    Node *current=head;
+    while(current!=NULL)
+    {
+        Node *temp=current->next;
+        while(temp!=NULL)
+        {
+            if(current->data>temp->data)
+            {
+                int val=current->data;
+                current->data=temp->data;
+                temp->data=val;
+            }
+            temp=temp->next;
+        }
+        current=current->next;
+    }
+
+    return head;
+}
+
+Node* reverse(Node *head)
+{
+    Node *prev=NULL;
+    Node *temp=head;
+    while(temp!=NULL)
+    {
+        Node* front=temp->next;
+        temp->next=prev;
+        prev=temp;
+        temp=front;
+    }
+    return prev; //****
+}
+
+Node* concat(Node *head1,Node *head2)
+{
+    Node* temp=head1;
+    while(temp->next!=NULL)
+    {
+        temp=temp->next;
+    }
+    temp->next=head2;
+    return head1;
+}
+
+void display(Node *head)
+{
+    Node* temp=head;
+    if(temp==NULL)
+    {
+        printf("\n list is empty");
+        return;
+    }
+    while(temp!=NULL)
+    {
+        printf("%d",temp->data);
+        temp=temp->next;
+    }
+    printf("\n");
+}
+
+int main()
+{
+    struct Node* head1=NULL;
+    struct Node* head2=NULL;
+    int choice,value;
+    while(1)
+    {
+        printf("\n 1. Inserting a node at Beginning 1");
+        printf("\n 7. Inserting a node at Beginning 2");
+        printf("\n 2. Sorting");
+        printf("\n 3. reversing");
+        printf("\n 4. concatenate");
+        printf("\n 5. Display");
+        printf("\n 6. Exit");
+        printf("\n Enter your choice");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:printf("\n enter the data to be added for list 1:");
+                scanf("%d",&value);
+                insertAtBeginning(&head1,value);
+                break;
+            case 7:printf("\n enter the data to be added for list 2:");
+                scanf("%d",&value);
+                insertAtBeginning(&head2,value);
+                break;
+            case 2:head1=sort(head1);
+                head2=sort(head2);
+                break;
+            case 3:head1=reverse(head1);
+                head2=reverse(head2);
+                break;
+            case 4:head1=concat(head1,head2);
+                break;
+            case 5:display(head1);
+                display(head2);
+                break;
+            case 6:exit(0);
+                break;
+            default:printf("\n Invalid Choice");
+                break;
+        }
+    }
+}
